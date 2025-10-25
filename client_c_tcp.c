@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         close(sockfd);
         exit(1);
     }
-
+    // client input
     char sendbuf[MAX_BUF];
     printf("Enter string: ");
     fflush(stdout);
@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    // read everything server sends
     char recvbuf[MAX_BUF];
     ssize_t n;
     char linebuf[MAX_BUF * 2];

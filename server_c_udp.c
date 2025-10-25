@@ -8,6 +8,7 @@
 
 #define MAX_BUF 256
 
+// returns 1 if all chars are digits 0-9, 0 otherwise
 int is_all_digits(const char *s) {
     for (int i = 0; s[i] != '\0'; i++) {
         if (!isdigit((unsigned char)s[i])) {
@@ -18,6 +19,7 @@ int is_all_digits(const char *s) {
     return 1;
 }
 
+// sum digits of str s, returns the integer sum
 int sum_digits_str(const char *s) {
     int sum = 0;
     for (int i = 0; s[i] != '\0'; i++) {
@@ -28,6 +30,7 @@ int sum_digits_str(const char *s) {
     return sum;
 }
 
+// sum digits of an integer n, returns the integer sum.
 int sum_digits_int(int n) {
     int sum = 0;
     if (n == 0) return 0;
@@ -66,7 +69,7 @@ int main(int argc, char *argv[]) {
         close(sockfd);
         exit(1);
     }
-
+    //loop
     for (;;) {
         cli_len = sizeof(cliaddr);
         memset(buf, 0, sizeof(buf));
@@ -77,16 +80,16 @@ int main(int argc, char *argv[]) {
             continue;
         }
         buf[n] = '\0';
-
+        // check if all digits
         if (!is_all_digits(buf)) {
             const char *sorry = "Sorry, cannot compute!";
             sendto(sockfd, sorry, strlen(sorry), 0,
                    (struct sockaddr *)&cliaddr, cli_len);
             continue;
         }
-
+        // case number
         int sum = sum_digits_str(buf);
-
+        // loop till single digit
         while (1) {
             char out[64];
             snprintf(out, sizeof(out), "%d", sum);
@@ -95,6 +98,7 @@ int main(int argc, char *argv[]) {
                    (struct sockaddr *)&cliaddr, cli_len);
 
             if (sum >= 0 && sum <= 9) {
+                // single digit, done
                 break;
             }
             sum = sum_digits_int(sum);

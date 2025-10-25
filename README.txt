@@ -1,1 +1,1 @@
-HW2 CS176A
+HW2 CS176A by Perry Thampiratwong

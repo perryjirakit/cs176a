@@ -8,6 +8,7 @@
 
 #define MAX_BUF 256
 
+// check if server message is "Sorry, cannot compute!"
 int is_error_msg(const char *s) {
     return strncmp(s, "Sorry, cannot compute!", 22) == 0;
 }
@@ -74,7 +75,7 @@ int main(int argc, char *argv[]) {
         close(sockfd);
         exit(1);
     }
-
+    // loop
     while (1) {
         memset(recvbuf, 0, sizeof(recvbuf));
         ssize_t n = recvfrom(sockfd, recvbuf, sizeof(recvbuf) - 1, 0,

@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
         close(listenfd);
         exit(1);
     }
-
+    // accept loop
     while (1) {
         struct sockaddr_in cliaddr;
         socklen_t clilen = sizeof(cliaddr);
@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
+        //read from client
         char buf[MAX_BUF];
         memset(buf, 0, sizeof(buf));
         ssize_t n = recv(connfd, buf, sizeof(buf)-1, 0);
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
             close(connfd);
             continue;
         }
-
+        // case number
         int sum = sum_digits_str(buf);
 
         while (1) {
@@ -109,6 +110,7 @@ int main(int argc, char *argv[]) {
             snprintf(out, sizeof(out), "%d", sum);
 
             send_line(connfd, out);
+            // after each message, send newline
             send(connfd, "\n", 1, 0);
 
             if (sum >= 0 && sum <= 9) {
