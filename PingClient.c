@@ -143,11 +143,14 @@ int main(int argc, char *argv[]) {
     if (received == 0) {
         rtt_min = 0.0;
     }
-
+    /*
     printf("%d packets transmitted, %d received, %.0f%% packet loss\n", 
            transmitted, received, loss_percent);
     printf("rtt min/avg/max = %.3f %.3f %.3f ms\n", 
            rtt_min, rtt_avg, rtt_max); // [cite: 347, 358]
+    */
+    printf("%d packets transmitted, %d received, %.0f%% packet loss rtt min/avg/max = %.3f %.3f %.3f ms\n",
+           transmitted, received, loss_percent, rtt_min, rtt_avg, rtt_max);
 
     return 0;
 }
