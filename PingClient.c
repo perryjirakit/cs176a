@@ -73,8 +73,7 @@ int main(int argc, char *argv[]) {
     double rtt_min = 1e9; // Init min to a large number
     double rtt_max = 0.0;
 
-    printf("Pinging %s (IP: %s) on port %d:\n", 
-           host, inet_ntoa(server_addr.sin_addr), port);
+
 
     // --- 5. Ping loop ---
     for (int seq = 1; seq <= NUM_PINGS; seq++) {
