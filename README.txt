@@ -1,1 +1,0 @@
-HW3 CS176A by Perry Thampiratwong
