@@ -131,9 +131,13 @@ int main(int argc, char *argv[]) {
     }
 
     close(sockfd);
+    printf("--- %s ping statistics ---\n", host);
 
-    printf("\n--- %s ping statistics ---\n", host);
-    double loss_percent = 100.0 * (double)(transmitted - received) / transmitted;
+    double loss_percent = 0.0;
+    if (transmitted > 0) {
+        loss_percent = 100.0 * (double)(transmitted - received) / transmitted;
+    }
+    
     double rtt_avg = (received == 0) ? 0.0 : rtt_sum / received;
     
     // Handle case where no packets are received
@@ -143,7 +147,7 @@ int main(int argc, char *argv[]) {
 
     printf("%d packets transmitted, %d received, %.0f%% packet loss\n", 
            transmitted, received, loss_percent);
-    printf("rtt min/avg/max = %.3f/%.3f/%.3f ms\n", 
+    printf("rtt min/avg/max = %.3f %.3f %.3f ms\n", 
            rtt_min, rtt_avg, rtt_max); // [cite: 347, 358]
 
     return 0;
