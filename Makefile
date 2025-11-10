@@ -1,4 +1,3 @@
-# Makefile for CS 176A UDP Ping Client [cite: 360]
 
 # Compiler
 CC = gcc
