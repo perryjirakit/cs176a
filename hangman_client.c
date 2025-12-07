@@ -26,11 +26,13 @@ void print_game_state(unsigned char *buffer) {
     
     // Print incorrect guesses
     printf(">>>Incorrect Guesses:");
-    for (int i = 0; i < num_incorrect; i++) {
-        if (i == 0) printf(" ");
-        printf("%c", buffer[3 + word_len + i]);
-        if (i < num_incorrect - 1) {
-            printf(",");
+    if (num_incorrect > 0) {
+        printf(" ");
+        for (int i = 0; i < num_incorrect; i++) {
+            printf("%c", buffer[3 + word_len + i]);
+            if (i < num_incorrect - 1) {
+                printf(",");
+            }
         }
     }
     printf("\n");
@@ -73,7 +75,7 @@ int main(int argc, char *argv[]) {
     
     // Ask if ready to start
     char ready[10];
-    printf(">>> Ready to start game? (y/n): ");
+    printf(">>>Ready to start game? (y/n): ");
     fflush(stdout);
     
     if (fgets(ready, sizeof(ready), stdin) == NULL) {
@@ -120,10 +122,7 @@ int main(int argc, char *argv[]) {
         } else {
             // Game control packet
             print_game_state(buffer);
-            
 
-            
-            // Wait a tiny bit to see if server sends messages (non-blocking check)
             fd_set readfds;
             struct timeval tv;
             FD_ZERO(&readfds);
@@ -134,7 +133,6 @@ int main(int argc, char *argv[]) {
             int ready = select(client_socket + 1, &readfds, NULL, NULL, &tv);
             
             if (ready > 0) {
-                // Server has more data (likely win/lose messages), loop to receive them
                 continue;
             }
             

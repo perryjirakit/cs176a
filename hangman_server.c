@@ -175,8 +175,6 @@ void *handle_client(void *arg) {
         if (msg_len > 0 && msg_len <= bytes_read - 1) {
             char guess = buffer[1];
             process_guess(game, guess);
-
-            // Always send the updated game state first
             int game_won = is_game_won(game);
             int game_lost = is_game_lost(game);
             
@@ -189,11 +187,18 @@ void *handle_client(void *arg) {
             
             // Send current game state (with full word if game ended)
             send_game_state(game);
+
             if (game_won) {
+                char word_msg[BUFFER_SIZE];
+                snprintf(word_msg, BUFFER_SIZE, "The word was %s", game->word);
+                send_message(game->client_socket, word_msg);
                 send_message(game->client_socket, "You Win!");
                 send_message(game->client_socket, "Game Over!");
                 break;  // End the game loop
             } else if (game_lost) {
+                char word_msg[BUFFER_SIZE];
+                snprintf(word_msg, BUFFER_SIZE, "The word was %s", game->word);
+                send_message(game->client_socket, word_msg);
                 send_message(game->client_socket, "You Lose.");
                 send_message(game->client_socket, "Game Over!");
                 break;  // End the game loop
