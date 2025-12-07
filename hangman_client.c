@@ -27,7 +27,7 @@ void print_game_state(unsigned char *buffer) {
     // Print incorrect guesses
     printf(">>>Incorrect Guesses:");
     if (num_incorrect > 0) {
-        printf(" ");
+        printf("");
         for (int i = 0; i < num_incorrect; i++) {
             printf("%c", buffer[3 + word_len + i]);
             if (i < num_incorrect - 1) {
