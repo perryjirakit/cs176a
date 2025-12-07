@@ -121,9 +121,7 @@ int main(int argc, char *argv[]) {
             // Game control packet
             print_game_state(buffer);
             
-            // FIXED: After printing game state, check if there are more messages coming
-            // by peeking at the next packet. If it's a message, don't ask for guess.
-            // The server sends: game_state, then optionally "You Win/Lose" + "Game Over"
+
             
             // Wait a tiny bit to see if server sends messages (non-blocking check)
             fd_set readfds;

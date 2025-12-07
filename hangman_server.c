@@ -107,7 +107,6 @@ void init_game(GameState *game, int client_socket) {
     memset(game->incorrect, 0, sizeof(game->incorrect));
 }
 
-
 int is_game_won(GameState *game) {
     return strcmp(game->word, game->guessed) == 0;
 }
@@ -176,8 +175,8 @@ void *handle_client(void *arg) {
         if (msg_len > 0 && msg_len <= bytes_read - 1) {
             char guess = buffer[1];
             process_guess(game, guess);
-            
-           
+
+            // Always send the updated game state first
             int game_won = is_game_won(game);
             int game_lost = is_game_lost(game);
             
@@ -190,7 +189,6 @@ void *handle_client(void *arg) {
             
             // Send current game state (with full word if game ended)
             send_game_state(game);
-            
             if (game_won) {
                 send_message(game->client_socket, "You Win!");
                 send_message(game->client_socket, "Game Over!");
