@@ -175,6 +175,7 @@ void *handle_client(void *arg) {
         if (msg_len > 0 && msg_len <= bytes_read - 1) {
             char guess = buffer[1];
             process_guess(game, guess);
+
             int game_won = is_game_won(game);
             int game_lost = is_game_lost(game);
             
@@ -223,12 +224,6 @@ int main(int argc, char *argv[]) {
     // Seed random number generator
     srand(time(NULL));
     
-    // Load words
-    if (load_words() == 0) {
-        fprintf(stderr, "Failed to load words from hangman_words.txt\n");
-        exit(1);
-    }
-    
     // Initialize games
     for (int i = 0; i < MAX_CLIENTS; i++) {
         games[i].active = 0;
@@ -275,6 +270,13 @@ int main(int argc, char *argv[]) {
         
         if (client_socket < 0) {
             perror("Accept failed");
+            continue;
+        }
+
+        if (load_words() == 0) {
+            fprintf(stderr, "Failed to load words from hangman_words.txt\n");
+            send_message(client_socket, "Server Error");
+            close(client_socket);
             continue;
         }
         

@@ -122,7 +122,6 @@ int main(int argc, char *argv[]) {
         } else {
             // Game control packet
             print_game_state(buffer);
-
             fd_set readfds;
             struct timeval tv;
             FD_ZERO(&readfds);
@@ -133,6 +132,7 @@ int main(int argc, char *argv[]) {
             int ready = select(client_socket + 1, &readfds, NULL, NULL, &tv);
             
             if (ready > 0) {
+                // Server has more data (likely win/lose messages), loop to receive them
                 continue;
             }
             
